@@ -17,7 +17,8 @@ const deleteToDo = (id) => {
     };
 };
 
-const reducer = (state = [], action) => {
+const reducer = (state, action) => {
+    state = (state !== null) ? JSON.parse(localStorage.getItem('state')) : state;
     switch (action.type) {
         case ADD:
             return [{ text: action.text, id: Date.now() }, ...state];
@@ -28,7 +29,17 @@ const reducer = (state = [], action) => {
     }
 }
 
-const store = createStore(reducer)
+const store = createStore(reducer);
+
+const setLocalStorage = () => {
+    const state = store.getState();
+    localStorage.setItem('state', JSON.stringify(state))
+
+}
+
+store.subscribe(setLocalStorage);
+
+
 
 export const actionCreators = {
     addToDo,
