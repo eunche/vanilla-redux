@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { actionCreators } from "../store";
+import { add, setLocalStorageToState } from "../store";
 import ToDo from "../components/ToDo";
 
 
@@ -39,8 +39,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addToDo: (text) => dispatch(actionCreators.addToDo(text)),
-        setLocalStorageToState: () => dispatch(actionCreators.setLocalStorageToState())
+        addToDo: (text) => dispatch(add(text)),
+        setLocalStorageToState: () => dispatch(setLocalStorageToState())
     }
 }
 
