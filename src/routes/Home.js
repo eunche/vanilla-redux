@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { actionCreators } from "../store";
 import ToDo from "../components/ToDo";
 
 
-function Home({ toDos, addToDo }) {
+function Home({ toDos, addToDo, setLocalStorageToState }) {
     const [text, setText] = useState("");
     function onChange(e) {
         setText(e.target.value);
@@ -14,6 +14,9 @@ function Home({ toDos, addToDo }) {
         addToDo(text);
         setText("");
     }
+    useEffect(() => {
+        setLocalStorageToState();
+    }, []);
     return (
         <>
             <h1>To Do</h1>
@@ -36,7 +39,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addToDo: (text) => dispatch(actionCreators.addToDo(text))
+        addToDo: (text) => dispatch(actionCreators.addToDo(text)),
+        setLocalStorageToState: () => dispatch(actionCreators.setLocalStorageToState())
     }
 }
 

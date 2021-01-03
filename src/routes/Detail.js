@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { actionCreators } from "../store";
 
-function Detail({ toDo }) {
+function Detail({ toDo, setLocalStorageToState }) {
+    useEffect(() => {
+        setLocalStorageToState();
+    }, []);
     return (
         <>
             <h1>{toDo?.text}</h1>
@@ -15,4 +19,10 @@ function mapStateToProps(state, ownProps) {
     return { toDo: state.find(toDo => toDo.id === parseInt(id)) }
 }
 
-export default connect(mapStateToProps)(Detail);
+function mapDispatchToProps(dispatch) {
+    return {
+        setLocalStorageToState: () => dispatch(actionCreators.setLocalStorageToState())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detail);

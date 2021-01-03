@@ -20,6 +20,7 @@ import { createAction, createReducer } from "@reduxjs/toolkit";
 // 대체 코드
 const addToDo = createAction("ADD");
 const deleteToDo = createAction("DELETE");
+const setLocalStorageToState = createAction("SETLOCAL");
 
 
 
@@ -39,25 +40,27 @@ const reducer = createReducer([], {
     [addToDo]: (state, action) => {
         state.push({ text: action.payload, id: Date.now() });
     },
-    [deleteToDo]: (state, action) => state.filter(toDo => toDo.id !== action.payload)
+    [deleteToDo]: (state, action) => state.filter(toDo => toDo.id !== action.payload),
+    [setLocalStorageToState]: (state) => (localStorage.getItem('state') !== null) ? JSON.parse(localStorage.getItem('state')) : state
 });
 
 
 const store = createStore(reducer);
 
-const setLocalStorage = () => {
+const subscribeSetLocalStorage = () => {
     const state = store.getState();
     localStorage.setItem('state', JSON.stringify(state))
 
 }
 
-store.subscribe(setLocalStorage);
+store.subscribe(subscribeSetLocalStorage);
 
 
 
 export const actionCreators = {
     addToDo,
-    deleteToDo
+    deleteToDo,
+    setLocalStorageToState
 }
 
 export default store;
